@@ -7,108 +7,87 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="fw-semibold mb-4 text-center text-dark">Phiếu Nhập Sản Phẩm Mới</h1>
+                    <h1 class="fw-semibold mb-4 text-center text-dark">ADD NEW PRODUCT</h1>
                     <div class="card">
                         <div class="card-body">
-                            <form>
+                            <form action="{{ route('products.store') }}" method="POST">
+                                @csrf
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Tên Sản Phẩm</label>
+                                    <label for="exampleInputEmail1" class="form-label">Product Name</label>
                                     <input type="text" class="form-control" id="tensp"
-                                        aria-describedby="emailHelp" placeholder="Nhập Tên Sản Phẩm">
+                                        aria-describedby="emailHelp" placeholder="Nhập Tên Sản Phẩm" name="name">
                                 </div>
+
                                 <div class="row mb-3">
-                                    <div class="col-lg-6">
-                                        <label for="exampleInputPassword1" class="form-label">NSX <span
+                                    <div class="col-lg-4">
+                                        <label for="price" class="form-label">price/one Product <span
                                                 class="text-danger">(*)</span></label>
-                                        <input type="date" class="form-control" id="nsx">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label for="exampleInputPassword1" class="form-label">HSD </label>
-                                        <input type="date" class="form-control" id="nsx">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-lg-6">
-                                        <label for="exampleInputPassword1" class="form-label">Đơn Giá/1 Sản Phẩm <span
-                                                class="text-danger">(*)</span></label>
-                                        <input type="text" class="form-control" id="dongia"
+                                        <input type="text" class="form-control" id="price" name="price"
                                             placeholder="Nhập Giá Tiền">
+
+                                        {{-- đoạn script để format tiền việt nam --}}
+                                        <script>
+                                            function number_format(number, decimals, decPoint, thousandsSep) {
+                                                number = (number + '').replace(/[^0-9+\-Ee.]/g, '')
+                                                var n = !isFinite(+number) ? 0 : +number
+                                                var prec = !isFinite(+decimals) ? 0 : Math.abs(decimals)
+                                                var sep = (typeof thousandsSep === 'undefined') ? ',' : thousandsSep
+                                                var dec = (typeof decPoint === 'undefined') ? '.' : decPoint
+                                                var s = ''
+
+                                                var toFixedFix = function(n, prec) {
+                                                    var k = Math.pow(10, prec)
+                                                    return '' + (Math.round(n * k) / k)
+                                                        .toFixed(prec)
+                                                }
+
+                                                s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.')
+                                                if (s[0].length > 3) {
+                                                    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep)
+                                                }
+                                                if ((s[1] || '').length < prec) {
+                                                    s[1] = s[1] || ''
+                                                    s[1] += new Array(prec - s[1].length + 1).join('0')
+                                                }
+
+                                                return s.join(dec)
+                                            }
+
+                                            function formatVND(price) {
+                                                return number_format(price, 0, '.', ',');
+                                            }
+
+                                            document.getElementById("price").addEventListener("keyup", function() {
+                                                this.value = formatVND(this.value);
+                                            });
+                                        </script>
+                                        {{-- Kết thúc script để format tiền việt nam --}}
                                     </div>
-                                    <div class="col-lg-6">
-                                        <label for="exampleInputPassword1" class="form-label"> Số Lượng </label>
-                                        <input type="number" class="form-control" id="sl"
-                                            placeholder="Nhập Số Lượng">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-lg-6">
-                                        <label for="exampleInputPassword1" class="form-label">Đơn Vị: <span
+
+                                    <div class="col-lg-4">
+                                        <label for="category" class="form-label"> Categorys <span
                                                 class="text-danger">(*)</span></label>
-                                        <input type="text" class="form-control" id="donvi"
-                                            placeholder="Nhập Đơn Vị Tính">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label for="exampleInputPassword1" class="form-label"> Chọn Kho Chứa <span
-                                                class="text-danger">(*)</span></label>
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Kho Chứa Sản Phẩm</option>
-                                            <option value="1">Thực Phẩm</option>
-                                            <option value="2">Nước Giải Khát</option>
-                                            <option value="3">Đồ Gia Dụng</option>
+                                        <select class="form-select" aria-label="Default select example" name="category">
+                                            <option selected>Danh Mục Chứa Sản Phẩm</option>
+                                            @foreach ($category as $category)
+                                                <option value="{{ $category->CATE_ID }}">{{ $category->NAME }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
-                                </div>
-                                <h6 class="text-dark text-uppercase mb-4 mt-4 ">Thông Tin Về Khách Hàng <span
-                                        class="text-danger">(*)</span> </h6>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Tên Khách Hàng <span
-                                            class="text-danger">(*)</span> </label>
-
-                                    <input type="text" class="form-control" id="tensp"
-                                        aria-describedby="emailHelp" placeholder="Nhập Tên Khách Hàng">
-                                </div>
-
-                                <div class="row mb-4">
-                                    <div class="col-lg-6">
-                                        <label for="exampleInputPassword1" class="form-label">Số Điện Thoại<span
+                                    <div class="col-lg-4">
+                                        <label for="unit" class="form-label">Unit <span
                                                 class="text-danger">(*)</span></label>
-                                        <input type="text" class="form-control" id="donvi"
+                                        <input type="text" class="form-control" name="unit" id="unit"
                                             placeholder="Nhập Đơn Vị Tính">
                                     </div>
-                                    <div class="col-lg-6 align-content-center">
-                                        <label for="exampleInputPassword1" class="form-label">Loại Khách Hàng <span
-                                                class="text-danger">(*)</span></label>
-                                        <div class="d-flex">
-                                            <div class="form-check me-4">
-                                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                    id="flexRadioDefault1" value="0">
-                                                <label class="form-check-label" for="flexRadioDefault1">
-                                                    Nhập
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                    id="flexRadioDefault2" value="1" checked>
-                                                <label class="form-check-label" for="flexRadioDefault2">
-                                                    Xuất
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Địa Chỉ Khách Hàng <span
-                                            class="text-danger">(*)</span> </label>
 
-                                    <input type="text" class="form-control" id="tensp"
-                                        aria-describedby="emailHelp" placeholder="Nhập Địa Chỉ Khách Hàng">
-                                </div>
+
 
 
                                 <div class="text-center">
 
-                                    <button type="submit" class="btn btn-primary">Thêm Vào Kho</button>
+                                    <button type="submit" class="btn btn-primary">SUBMIT</button>
                                 </div>
                             </form>
                         </div>

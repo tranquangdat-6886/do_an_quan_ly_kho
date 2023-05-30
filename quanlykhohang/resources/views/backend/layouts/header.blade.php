@@ -1,5 +1,5 @@
  <!--  Header Start -->
- <header class="app-header">
+ <header class="app-header bg-success">
      <nav class="navbar navbar-expand-lg navbar-light">
          <ul class="navbar-nav">
              <li class="nav-item d-block d-xl-none">
@@ -16,8 +16,15 @@
          </ul>
          <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
              <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                 @php
+                     $loginUser = auth()->user();
+                 $nhanvien = \App\Models\User::find($loginUser->id); @endphp
                  <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank"
-                     class="text-dark h5">Trần Quang Đạt</a>
+                     class="text-dark h5">
+
+                     {{ $nhanvien->username }}
+
+                 </a>
                  <li class="nav-item dropdown">
                      <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                          data-bs-toggle="dropdown" aria-expanded="false">
@@ -38,8 +45,11 @@
                                  <i class="ti ti-list-check fs-6"></i>
                                  <p class="mb-0 fs-3">My Task</p>
                              </a>
-                             <a href="./authentication-login.html"
-                                 class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                             <form action="{{ route('logout') }}" method="post">
+                                 @csrf
+                                 <input type="submit" class="btn btn-outline-primary mx-3 mt-2 d-block" value="Logout">
+                             </form>
+
                          </div>
                      </div>
                  </li>

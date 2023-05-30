@@ -7,19 +7,27 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="fw-semibold mb-4 text-center text-dark">Tạo Kho Hàng Mới</h1>
+                    <h1 class="fw-semibold mb-4 text-center text-dark">ADD NEW WAREHOUSE</h1>
                     <div class="card">
                         <div class="card-body">
-                            <form>
+                            <form action="{{ route('warehouse.store') }}" method="POST">
+                                @csrf
                                 <div class="mb-3">
-                                    <label for="tenkho" class="form-label">Tên Kho <span class="text-danger">(*)</span></label>
-                                    <input type="text" class="form-control" id="tenkho"
-                                        aria-describedby="khohang" placeholder="Nhập Tên Kho Hàng">
+                                    <label for="name" class="form-label">Warehouse Name <span
+                                            class="text-danger">(*)</span></label>
+                                    <input type="text" class="form-control" id="tenkho" aria-describedby="khohang"
+                                        placeholder="Nhập Tên Kho Hàng" name="name">
                                 </div>
-                            
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Address<span
+                                            class="text-danger">(*)</span></label>
+                                    <input type="text" class="form-control" id="tenkho" aria-describedby="khohang"
+                                        placeholder="Nhập Địa Chỉ Kho Hàng" name="address">
+                                </div>
+
                                 <div class="text-center">
 
-                                    <button type="submit" class="btn btn-primary">Thêm Mới</button>
+                                    <button type="submit" class="btn btn-primary">SUBMIT</button>
                                 </div>
                             </form>
                         </div>

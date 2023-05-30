@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,15 +15,28 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
-Route::get('/admin/dashboard', 'AdminController@index')->name('dashboard');
-Route::get('/admin/products', 'ProductController@index')->name('product.index');
-Route::get('/admin/products/create', 'ProductController@create')->name('product.create');
-Route::get('/admin/warehouses', 'WarehouseController@index')->name('warehouse.index');
-Route::get('/admin/warehouses/create', 'WarehouseController@create')->name('warehouse.create');
-Route::get('/admin/employees', 'EmployeeController@index')->name('employee.index');
-Route::get('/admin/employees/create', 'EmployeeController@create')->name('employee.create');
-Route::get('/admin/export', 'ExportController@index')->name('export.index');
-Route::get('/admin/export/create', 'ExportController@create')->name('export.create');
+Route::middleware(['auth'])->group(function () {
+    // Các tuyến yêu cầu xác thực người dùng
+    Route::resource('/admin/dashboard', 'AdminController');
+    Route::get('/admin/doanhthu', 'AdminController@doanhthu');
+    Route::resource('/admin/employees', 'EmployeeController');
+    Route::resource('/admin/warehouse', 'WarehouseController');
+    Route::resource('/admin/products', 'ProductController');
+    Route::resource('/admin/categorys', 'CategoryController');
+    Route::resource('/admin/suppliers', 'SupplierController');
+    Route::resource('/admin/customers', 'CustomerController');
+    Route::resource('/admin/stockins', 'StockinController');
+    Route::resource('/admin/stockouts', 'StockoutController');
+    Route::get('/admin/search-product', 'StockinController@searchProduct');
+    Route::post('/admin/nhacungcap', 'StockinController@getSupplier');
+    Route::post('/admin/khachhang', 'StockoutController@getCustomer');
+    Route::get('/admin/Editstockins/{id}', 'StockinController@Editstockins');
+    Route::get('/admin/Editstockouts/{id}', 'StockoutController@Editstockouts');
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
