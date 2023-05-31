@@ -139,15 +139,7 @@
                                             @endif
                                         </td> --}}
 
-                                        <td>
-                                            <span class="d-flex">
-
-
-                                                <a target="_blank" href="" class="h2 fw-bold text-danger"
-                                                   ><i class="ti ti-trash"></i></a>
-                                            </span>
-
-                                        </td>
+                                      
                                         <td><input type="checkbox" class="select-row" /></td>
                                     </tr>
                                 @endforeach
